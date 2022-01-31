@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.apache.maven.plugin.logging.Log;
 import testsmell.TestFile;
 import testsmell.TestSmellDetector;
-import thresholds.DefaultThresholds;
 
 import java.io.IOException;
 import java.util.List;
