@@ -1,4 +1,4 @@
-package com.heigl.testsmelldetector.maven;
+package com.heigl.testsmelldetector.maven.util;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.maven.plugin.logging.Log;

@@ -1,5 +1,8 @@
 package com.heigl.testsmelldetector.maven;
 
+import com.heigl.testsmelldetector.maven.util.TestFileDetector;
+import com.heigl.testsmelldetector.maven.util.TestSmellDetectorRunner;
+import com.heigl.testsmelldetector.maven.util.TestSmellWriter;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
