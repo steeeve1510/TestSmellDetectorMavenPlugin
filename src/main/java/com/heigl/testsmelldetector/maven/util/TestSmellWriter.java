@@ -1,6 +1,5 @@
 package com.heigl.testsmelldetector.maven.util;
 
-import com.google.common.collect.Lists;
 import com.opencsv.CSVWriter;
 import lombok.RequiredArgsConstructor;
 import org.apache.maven.plugin.logging.Log;
@@ -34,15 +33,14 @@ public class TestSmellWriter {
     }
 
     private List<String> getHeader() {
-        List<String> header = Lists.newArrayList(
-                "App",
-                "TestClass",
-                "TestFilePath",
-                "ProductionFilePath",
-                "RelativeTestFilePath",
-                "RelativeProductionFilePath",
-                "NumberOfMethods"
-        );
+        List<String> header = new ArrayList<>();
+        header.add("App");
+        header.add("TestClass");
+        header.add("TestFilePath");
+        header.add("ProductionFilePath");
+        header.add("RelativeTestFilePath");
+        header.add("RelativeProductionFilePath");
+        header.add("NumberOfMethods");
         header.addAll(testSmellDetector.getTestSmellNames());
         return header;
     }
