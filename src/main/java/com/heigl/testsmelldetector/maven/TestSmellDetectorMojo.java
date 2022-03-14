@@ -23,6 +23,9 @@ public class TestSmellDetectorMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     MavenProject project;
 
+    @Parameter(property = "detect.outputPath")
+    private String outputPath;
+
     private final TestSmellDetector testSmellDetector = new TestSmellDetector(new DefaultThresholds());
     private final TestFileDetector testFileDetector = new TestFileDetector();
     private final TestSmellDetectorRunner testSmellDetectorRunner = new TestSmellDetectorRunner(testSmellDetector, getLog());
@@ -32,11 +35,16 @@ public class TestSmellDetectorMojo extends AbstractMojo {
     public void execute() {
         List<String> testCompileSourceRoots = project.getTestCompileSourceRoots();
         String appName = project.getName();
-        String outputFile = project.getBuild().getDirectory() + "/test-smells.csv";
+        String path;
+        if (outputPath == null) {
+            path = project.getBuild().getDirectory() + "/test-smells.csv";
+        } else {
+            path = outputPath;
+        }
 
         List<TestFile> testFiles = testFileDetector.getTestFiles(testCompileSourceRoots, appName);
         List<TestFile> testFilesWithSmells = testSmellDetectorRunner.getTestSmells(testFiles);
-        testSmellWriter.write(testFilesWithSmells, outputFile);
+        testSmellWriter.write(testFilesWithSmells, path);
 
         getLog().info("Test files: " + testFilesWithSmells);
     }
