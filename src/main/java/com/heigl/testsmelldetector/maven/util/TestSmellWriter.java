@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.apache.maven.plugin.logging.Log;
 import testsmell.AbstractSmell;
 import testsmell.TestFile;
-import testsmell.TestSmellDetector;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,7 +16,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TestSmellWriter {
 
-    private final TestSmellDetector testSmellDetector;
+    private final TestSmellDetectorProvider testSmellDetectorProvider;
     private final Log logger;
 
     public void write(List<TestFile> testFiles, String outputFile) {
@@ -41,7 +40,7 @@ public class TestSmellWriter {
         header.add("RelativeTestFilePath");
         header.add("RelativeProductionFilePath");
         header.add("NumberOfMethods");
-        header.addAll(testSmellDetector.getTestSmellNames());
+        header.addAll(testSmellDetectorProvider.getTestSmellNames());
         return header;
     }
 

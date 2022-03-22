@@ -1,6 +1,7 @@
 package com.heigl.testsmelldetector.maven;
 
 import com.heigl.testsmelldetector.maven.util.TestFileDetector;
+import com.heigl.testsmelldetector.maven.util.TestSmellDetectorProvider;
 import com.heigl.testsmelldetector.maven.util.TestSmellDetectorRunner;
 import com.heigl.testsmelldetector.maven.util.TestSmellWriter;
 import org.apache.maven.plugin.AbstractMojo;
@@ -26,10 +27,11 @@ public class TestSmellDetectorMojo extends AbstractMojo {
     @Parameter(property = "detect.outputPath")
     private String outputPath;
 
+    private final TestSmellDetectorProvider testSmellDetectorProvider = new TestSmellDetectorProvider();
     private final TestSmellDetector testSmellDetector = new TestSmellDetector(new DefaultThresholds());
     private final TestFileDetector testFileDetector = new TestFileDetector();
-    private final TestSmellDetectorRunner testSmellDetectorRunner = new TestSmellDetectorRunner(testSmellDetector, getLog());
-    private final TestSmellWriter testSmellWriter = new TestSmellWriter(testSmellDetector, getLog());
+    private final TestSmellDetectorRunner testSmellDetectorRunner = new TestSmellDetectorRunner(testSmellDetectorProvider, getLog());
+    private final TestSmellWriter testSmellWriter = new TestSmellWriter(testSmellDetectorProvider, getLog());
 
     @Override
     public void execute() {
