@@ -10,8 +10,6 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import testsmell.TestFile;
-import testsmell.TestSmellDetector;
-import thresholds.DefaultThresholds;
 
 import java.util.List;
 
@@ -28,7 +26,6 @@ public class TestSmellDetectorMojo extends AbstractMojo {
     private String outputPath;
 
     private final TestSmellDetectorProvider testSmellDetectorProvider = new TestSmellDetectorProvider();
-    private final TestSmellDetector testSmellDetector = new TestSmellDetector(new DefaultThresholds());
     private final TestFileDetector testFileDetector = new TestFileDetector();
     private final TestSmellDetectorRunner testSmellDetectorRunner = new TestSmellDetectorRunner(testSmellDetectorProvider, getLog());
     private final TestSmellWriter testSmellWriter = new TestSmellWriter(testSmellDetectorProvider, getLog());
@@ -47,7 +44,5 @@ public class TestSmellDetectorMojo extends AbstractMojo {
         List<TestFile> testFiles = testFileDetector.getTestFiles(testCompileSourceRoots, appName);
         List<TestFile> testFilesWithSmells = testSmellDetectorRunner.getTestSmells(testFiles);
         testSmellWriter.write(testFilesWithSmells, path);
-
-        getLog().info("Test files: " + testFilesWithSmells);
     }
 }
