@@ -22,6 +22,9 @@ public class TestSmellDetectorMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     MavenProject project;
 
+    @Parameter(property = "detect.disable", defaultValue = "false")
+    private boolean disable;
+
     @Parameter(property = "detect.outputPath")
     private String outputPath;
 
@@ -32,6 +35,10 @@ public class TestSmellDetectorMojo extends AbstractMojo {
 
     @Override
     public void execute() {
+        if(!shouldCollect(project, disable)) {
+            return;
+        }
+
         List<String> testCompileSourceRoots = project.getTestCompileSourceRoots();
         String appName = project.getName();
         String path;
@@ -44,5 +51,18 @@ public class TestSmellDetectorMojo extends AbstractMojo {
         List<TestFile> testFiles = testFileDetector.getTestFiles(testCompileSourceRoots, appName);
         List<TestFile> testFilesWithSmells = testSmellDetectorRunner.getTestSmells(testFiles);
         testSmellWriter.write(testFilesWithSmells, path);
+    }
+
+
+    private boolean shouldCollect(MavenProject project, boolean disable) {
+        if ("pom".equals(project.getPackaging())) {
+            getLog().info("Module has pom packaging, skipping...");
+            return false;
+        }
+        if (disable) {
+            getLog().info("Detecting test-smells is disabled...");
+            return false;
+        }
+        return true;
     }
 }
